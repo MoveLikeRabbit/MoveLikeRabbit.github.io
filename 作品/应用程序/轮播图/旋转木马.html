@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="jquery-3.2.1.min.js"></script>
+    </head>
+    <style>
+	    *{
+	    	list-style: none;
+	    	margin: 0;
+	    	padding: 0;
+	    }
+    	.box{
+    		height:340px;
+    		position: relative;
+    		margin-top: 100px;
+    	}
+    	.list{
+    		width: 1200px;
+    		height: 300px;
+    		position: absolute;
+    		left: 0;
+    		right: 0;
+    		margin: 0 auto;
+    		/* background: skyblue; */
+    		overflow: hidden;
+    	}
+    	.list li{
+    		position: absolute;
+		    top: 0;
+		    left: 0;
+			transition: all 0.3s ease-out;
+			opacity: 0.9;
+    	}
+    	.list li:first-child{
+    		opacity: 1;
+    	}
+    	.list li img{
+    		width: 751px;
+    		height: 300px;
+    	}
+    	.btn{
+		    position: absolute;
+		    top: 50%;
+		    margin-top: -50px;
+		    width: 60px;
+		    height: 100px;
+		    line-height: 100px;
+		    font-size: 30px;
+		    color: white;
+		    text-decoration: none;
+		    text-align: center;
+		    background: rgba(0, 0, 0, 0.2);
+		    cursor: pointer;
+    	}
+    	.next{
+    		right: 0;
+    	}
+    	.buttons{
+		    position: absolute;
+		    width: 1200px;
+		    height: 30px;
+		    bottom: 0;
+		    left: 50%;
+		    margin-left: -600px;
+		    text-align: center;
+		    padding-top: 10px;
+    	}
+    	.buttons a {
+    		display: inline-block;
+		    width: 35px;
+		    height: 5px;
+		    padding-top: 4px;
+		    cursor: pointer;
+    	}
+    	.buttons a span{
+		    display: block;
+		    width: 35px;
+		    height: 2px;
+		    background: tomato;
+    	}
+    </style>
+    <body>
+    	<div class="box">
+    		<div class="list aa">
+    			<ul>
+    				<li class="0"><img src="img/1.jpg" alt=""></li>
+    				<li class="1"><img src="img/2.jpg" alt=""></li>
+    				<li class="2"><img src="img/3.jpg" alt=""></li>
+    				<li class="3"><img src="img/4.jpg" alt=""></li>
+    				<li class="4"><img src="img/5.jpg" alt=""></li>
+    				<li class="5"><img src="img/6.jpg" alt=""></li>
+    				<li class="6"><img src="img/7.jpg" alt=""></li>
+    			</ul>
+    		</div>
+    		<a href="javascript:;" class="prev btn aa">&lt;</a>
+    		<a href="javascript:;" class="next btn aa">&gt;</a>
+    		<div class="buttons aa">
+    			<a href="javascript:;"><span></span></a>
+    			<a href="javascript:;"><span></span></a>
+    			<a href="javascript:;"><span></span></a>
+    			<a href="javascript:;"><span></span></a>
+    			<a href="javascript:;"><span></span></a>
+    			<a href="javascript:;"><span></span></a>
+    			<a href="javascript:;"><span></span></a>
+    		</div>
+    	</div>
+    </body>
+    <script>
+    	var images = $('.list li');
+    	var prev = $('.prev');
+    	var next = $('.next');
+    	var btn = $('.aa');
+    	var buttons = $('.buttons a');
+    	function change(){
+    		images = $('.list li');
+    		images.each(function (index,val) {
+	    		$(val).css({
+	    			'z-index':function(){
+	    				if(index == 0){
+	    					return 2;
+	    				}else if(index ==1 || index ==6){
+	    					return 1;
+	    				}else{
+	    					return 0;
+	    				}
+	    			},
+	    			transform:function(){
+				    			if(index<5){
+				    				if(index == 0){
+				    					return `translate3d(${(index+1)*224}px,0,0) scale(1)`;
+				    				}else{
+				    					return `translate3d(${(index+1)*224}px,0,0) scale(0.81)`
+				    				}	
+				    			}else{
+				    				return `translate3d(${(index-6)*224}px,0,0) scale(0.81)`;
+				    			}		
+				    		},
+				    		'transform-origin':function(){
+				    			if(index == 6){
+				    				return '0';
+				    			}
+				    			if(index == 1){
+				    				return '100%';
+				    			}
+				    		}
+				    	})
+    		})
+    		var  n = images.eq(0).prop('className');
+    		$('.buttons a span').css('background','tomato').eq(n).css('background','blue')
+    	}
+	    change();	
+    	var t = setInterval(function(){
+    		images.eq(0).appendTo('.list ul');
+    		change()
+    	},2500);
+    	btn.mouseenter(function(){
+    		clearInterval(t);
+    	});
+    	btn.mouseleave(function(){
+    		t = setInterval(function(){
+	    		images.eq(0).appendTo('.list ul');
+	    		change()
+	    	},2500);
+    	});
+    	prev.click(function(){
+    		images.eq(6).prependTo('.list ul');
+    		change()
+    	})
+    	next.click(function(){
+    		images.eq(0).appendTo('.list ul');
+    		change()
+    	})
+        function jump(){
+            var index = $(this).index();
+            var  n = images.eq(0).prop('className');
+            if(n == 6 && index == 0 ){
+                images.eq(0).appendTo('.list ul');
+                    change();
+            }else if( n == 0 && index ==6){
+                images.eq(6).prependTo('.list ul');
+                    change();
+            }else{
+                for (var i = 0; i < Math.abs(index-n); i++) {
+                    if(index>n){
+                        images.eq(0).appendTo('.list ul');
+                    }
+                    if(n>index){
+                        images.eq(6).prependTo('.list ul');
+                    }
+                    change();
+                }
+            }
+        }
+    	buttons.click(jump);
+        images.click(function(){
+            var index = $(this).index();
+            if(index == 1){
+                images.eq(0).appendTo('.list ul');
+            }
+            if(index == 6){
+                images.eq(6).prependTo('.list ul');
+            }
+            change();
+        });
+    </script>
+</html>

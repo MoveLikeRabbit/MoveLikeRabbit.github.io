@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="jquery-3.2.1.min.js"></script>
+    </head>
+    <style>
+	    *{
+	    	list-style: none;
+	    	margin: 0;
+	    	padding: 0;
+	    }
+    	.banner{
+    		width:534px;
+    		height: 300px;
+    		margin: 100px auto;
+    		border: 1px solid #000;
+    		position: relative;
+            overflow: hidden;
+    	}
+    	.banner>li{
+    		width: 100%;
+    		height: 100%;
+    		position: absolute;
+    		top: 0;
+    		left: 0;
+    	}
+    	.banner>li>img{
+    		width: 100%;
+    		height: 100%;
+    	}
+    	.btnbox{
+    		width: 200px;
+    		height: 30px;
+    		display: flex;
+    		position: absolute;
+    		left: 0;
+    		right: 0;
+    		bottom: 3%;
+    		margin: auto;
+    		justify-content: space-around;
+
+    	}
+    	.btnbox li{
+			width: 10px;
+			height: 10px;
+			background: rgba(0, 0, 0, 0.8);
+			border: 1px solid rgba(255, 255, 255, 0.8);
+			border-radius: 50%;'
+			cursor: pointer;
+    	}
+    	.btnbox .active{
+    		background-color:  #fff;
+    	}
+    	.leftBtn,.rightBtn{
+    		width: 30px;
+    		height: 60px;
+    		line-height: 60px;
+    		font-size: 30px;
+    		text-align: center;
+    		position: absolute;
+    		color: #fff;
+    		top: calc(50% - 50px);
+    		background: rgba(0, 0, 0, 0.7);
+    	}
+    	.rightBtn{
+    		right: 0;
+    	}
+    </style>
+    <body>
+    	<ul class="banner">
+    		<li><img src="img/bigbanner1.jpg" alt=""></li>
+    		<li><img src="img/bigbanner2.jpg" alt=""></li>
+    		<li><img src="img/bigbanner3.jpg" alt=""></li>
+    		<li><img src="img/bigbanner4.jpg" alt=""></li>
+    		<li><img src="img/bigbanner5.jpg" alt=""></li>
+	    	<ul class="btnbox">
+	    		<li class="active" "></li>
+	    		<li></li>
+	    		<li></li>
+	    		<li></li>
+	    		<li></li>
+	    	</ul>
+	    	<div class="leftBtn">&lt;</div>
+	    	<div class="rightBtn">&gt;</div>
+    	</ul>
+    </body>
+    <script>
+    	var images = $('.banner>li');
+    	var btn = $('.btnbox>li');
+    	var leftBtn = $('.leftBtn');
+    	var rightBtn = $('.rightBtn');
+        var widths = images.innerWidth();
+        images.css('left',widths+'px').eq(0).css('left',0);
+ 
+    	var now = next = 0;
+    	var flag = true;
+    	function move(type = 'r'){
+    		if(!flag){
+    			return;
+    		}
+    		flag = false;
+    		if(type == 'r'){
+    			next++;
+	    		if(next>=images.length){
+	    			next = 0;
+	    		}
+                images.eq(next).css('left',widths);
+                images.eq(now).animate({'left':-widths}, 500);
+    		}
+    		if(type == 'l'){
+    			next--;
+    			if(next<0){
+    				next = images.length - 1;
+    			}
+                images.eq(next).css('left',-widths);
+                images.eq(now).animate({'left':widths}, 500);
+    		}
+    		// images.eq(now).css('left',0);
+            images.eq(next).animate({'left':0}, 500,function(){
+                flag = true;
+            });
+    		
+    		btn.eq(now).removeClass('active');
+    		btn.eq(next).addClass('active');
+    		now = next;
+    	}
+    	var t = setInterval(move,1000);
+
+    	$('.banner').mouseenter(function(){
+    		clearInterval(t);
+    	})
+    	.mouseleave(function() {
+    		t = setInterval(move,1000);
+    	});
+    	btn.mouseenter(function(){
+    		var index = $(this).index();
+            if(index>next){
+                next = index - 1;
+                move('r');
+            }
+            if(index<next){
+                next = index + 1;
+                move('l');
+            }
+    		
+    	})
+    	leftBtn.click(function(){
+    		move('l');
+    	})
+    	rightBtn.click(function(){
+    		move('r');
+    	})
+    </script>
+</html>

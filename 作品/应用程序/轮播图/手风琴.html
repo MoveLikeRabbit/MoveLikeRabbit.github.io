@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="jquery-3.2.1.min.js"></script>
+    </head>
+    <body>
+     <style>
+	    *{
+	    	list-style: none;
+	    	margin: 0;
+	    	padding: 0;
+	    }
+    	.banner{
+    		width: 1000px;
+    		height: 400px;
+    		margin: 100px auto;
+    		position: relative;
+            overflow: hidden;
+    	}
+    	.banner>li{
+    		width: 700px;
+    		height: 100%;
+    		position: absolute;
+    		top: 0;
+    		left: 0;
+    	}
+    	.banner>li>img{
+    		width: 100%;
+    		height: 100%;
+    	}
+    </style>
+    <body>
+    	<ul class="banner">
+    		<li><img src="img/dog1.jpg" alt=""></li>
+    		<li><img src="img/dog2.jpg" alt=""></li>
+    		<li><img src="img/dog3.jpg" alt=""></li>
+    		<li><img src="img/dog4.jpg" alt=""></li>
+    		<li><img src="img/dog5.jpg" alt=""></li>
+    	</ul>
+    </body>
+    </body>
+    <script>
+    	$(function(){
+    		var images = $('.banner>li');
+    		var liWidth = $('li').width();
+    		var ulWidth = $('ul').width();
+    		var n = (ulWidth - liWidth)/(images.length-1);
+    		console.log(liWidth,ulWidth,images.length);
+    		images.css({left:function(index,val){
+    			if(index==0){
+    				return 0;
+    			}else{
+    				return liWidth+(index-1)*n+'px';
+    			}
+    		}})
+    		images.click(function(){
+    			var num = $(this).index();
+    			images.each(function(index){
+					if(num>=index){
+						images.eq(index).animate({left:index*n})
+    				}else{
+						images.eq(index).animate({left:liWidth+(index-1)*n})
+					}		
+    			})
+    		})
+    		images.mouseenter(function(){
+    			if($(this).index() == 0)return;
+    			$(this).animate({left:"-=10"})
+    		});
+    		images.mouseleave(function(){
+    			if($(this).index() == 0)return;
+    			$(this).animate({left:"+=10"})
+    		});
+    	})
+    </script>
+</html>

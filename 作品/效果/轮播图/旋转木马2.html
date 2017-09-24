@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery-3.2.1.min.js"></script>
+</head>
+<style>
+	#carousel {
+	    position: relative;
+	    z-index: 2;
+	    height: 200px;
+	    margin-top: 200px;
+	    transform-style: preserve-3d;
+	    perspective: 800px;
+	}
+	#carousel img {
+	    position: absolute;
+	    left: 50%;
+	    top: 50%;
+	    width: 300px;
+	    height: 200px;
+	    margin-left: -150px;
+	    margin-top: -100px;
+	    border-radius: 8px;
+	    transition: transform 0.5s ease-in-out;
+	}
+</style>
+<body>
+	<div id="carousel">
+	    <img src="images/1.png" alt="#">
+	    <img src="images/2.png" alt="#">
+	    <img src="images/3.png" alt="#">
+	    <img src="images/4.png" alt="#">
+	    <img src="images/5.png" alt="#">
+  	</div>
+</body>
+<script>
+	var img = $('img');
+	var arr = ['translateX(-300px) translateZ(100px) rotateY(30deg)','translateX(-150px) translateZ(200px) rotateY(30deg)','translateZ(300px)','translateX(150px) translateZ(200px) rotateY(-30deg)','translateX(300px) translateZ(100px) rotateY(-30deg)'];
+	var  n = 6;
+	move();
+	function move(type='l'){
+		if(type == 'l'){
+			n--;
+			if(n<0)n = arr.length-1;
+		}else{
+			n++;
+			if(n>arr.length-1)n = 0;	
+		}
+		img.each(function(index,val){
+			var num = n + index;
+			if(num>arr.length-1)num -=5;
+			$(val).attr('num',num);
+			$(val).css('transform',arr[num]);
+		})
+	}
+	var t = setInterval(function(){
+		move('r');
+	}, 1500);
+	img.mouseenter(function(){
+		clearInterval(t);
+	})
+	.mouseleave(function() {
+		t = setInterval(move, 1500);
+	});
+	img.click(function(){
+		var n = $(this).attr('num');
+		for (var i = 0; i < Math.abs(n-2); i++) {
+			if(n>2)move();
+			if(n<2)move('r');
+		}
+	})
+</script>
+</html>

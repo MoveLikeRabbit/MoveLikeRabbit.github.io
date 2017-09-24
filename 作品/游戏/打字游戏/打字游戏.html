@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <style>
+	    *{
+	    	margin: 0;
+	    	padding: 0;
+            list-style: none;
+	    }
+	    html,body{
+	    	width: 100%;
+	    	height: 100%;
+	    	overflow: hidden;
+             background: url(sucai/bg.png) center center no-repeat /cover;
+	    }
+    	.box{
+    		width: 1000px;
+    		height: 100%;
+    		margin: 0 auto;
+    		position: relative;
+    	}
+    	.item{
+    		width:50px;
+    		height:50px;
+    		/* background:tomato; */
+    		position:absolute;
+            color: #fff;
+            /* text-shadow: 5px 5px 5px #00FF00; */
+            top: 0;
+    		font-size:30px;
+    		line-height:50px;
+    		text-align:center;
+    		border-radius: 10px;
+            background: url(img/123.png) center center no-repeat /cover;
+    		/* transition: all 4s ease-in; */
+    	}
+        .container{
+            position: absolute;
+            height: 30px;
+            left: 0;
+            right: 0;
+            margin: auto;
+            top: 0;
+            display: flex;
+            justify-content: center;
+        }
+    	button,.score,.guanka,.time,.miss{
+    		width: 60px;
+    		height: 30px;
+    		cursor: pointer;
+            text-align: center;
+            line-height: 30px;
+            font-size: 16px;
+    	}
+        .miss{
+            width: 80px;
+            background:palegoldenrod;
+            color: red;
+        }
+        .score{
+            background: gold;
+        }
+        .guanka{
+            width: 80px;
+            background: green; 
+            color: #fff;
+        }
+        .time{
+            width: 120px;
+            background: blue;
+            color: #fff;
+            font-size: 12px;
+        }
+        .time ul li{
+            float: left;
+            width: 30%;
+        }
+    </style>
+    <body>
+        <div class="life"></div>
+        <div class="box"></div>
+        <div class="container">
+            <div class="miss">Miss: 0</div>
+            <div class="score">0 分</div>
+            <div class="guanka">第 1 关</div>
+            <div class="time">
+                <ul>
+                    <li><span id="hour">0</span> <span>时</span></li>
+                    <li><span id="minute">0</span> <span>分</span></li>
+                    <li><span id="second">0</span> <span>秒</span></li>
+                </ul>
+            </div>
+            <button>START</button>
+        </div>
+		
+    </body>
+    <script>
+	    var obj={};
+	    var box=document.getElementsByClassName('box')[0];
+	    var btn=document.getElementsByTagName('button')[0];
+        var missBox=document.getElementsByClassName('miss')[0];
+        var scoreBox=document.getElementsByClassName('score')[0];
+        var guankaBox=document.getElementsByClassName('guanka')[0];
+        var hourBox=document.getElementsByTagName('span')[0];
+        var minuteBox=document.getElementsByTagName('span')[2];
+        var secondBox=document.getElementsByTagName('span')[4];
+
+        var score=miss=0;guanka=1;hour=minute=second=0,millisec=50;
+    	function createLetter(){
+    		do{
+				var letter= String.fromCharCode(Math.floor(Math.random()*26)+65);
+    		}while(obj[letter])
+    		var item=document.createElement('div');
+    		item.classList.add('item');//给节点添加类名 div.classList.remove('item');
+    		do{
+    			var lefts=Math.random()*(parseInt(getComputedStyle(box,null).width)-50);
+    		}while(checkPos(lefts,obj)) 
+            var tops=Math.floor(-Math.random()*400-50);
+            var speedY=Math.random()*4+1;
+    		obj[letter]={left:lefts,top:tops,ele:item,speed:speedY};		
+    		item.style.left=lefts+'px';
+    		item.style.top=tops+'px';
+    		item.innerText=letter;
+    		// item.style.transitionDelay=Math.random()*5+'s';
+    		box.appendChild(item);
+    	}
+    	function checkPos(l,obj){
+    		for(var i in obj){
+    			if(Math.abs(obj[i].left-l)<50){
+    				return true;
+    			}
+    		}
+    		return false;
+    	}
+    	for(let i=0;i<10;i++){
+    		createLetter();
+    	}         
+        function move(){
+            for(var i in obj){
+                var tops=obj[i].top;
+                tops+=obj[i].speed;
+                obj[i].ele.style.top=tops+'px';
+                obj[i].top=tops;
+                if(tops>window.innerHeight){
+                    box.removeChild(obj[i].ele);
+                    delete obj[i];
+                    createLetter();
+                    miss++;
+                    missBox.innerText='Miss: '+miss;
+                    if(miss==10){
+                        alert('游戏结束，您共获得'+score+'分，打通关卡数：'+guanka+'。 用时'+hour+'时'+minute+'分'+second+'秒')
+                    }
+                }
+            }
+        }
+        var flag=true;
+        var t=setInterval(move,millisec);
+        clearInterval(t);
+        btn.onclick=function(){
+            if(flag){
+                t=setInterval(move,millisec);
+                btn.innerText="STOP";
+                document.onkeydown=function(e){
+                    e = e || window.e;
+                    var num=String.fromCharCode(e.keyCode);
+                    if(obj[num]){
+                        box.removeChild(obj[num].ele);
+                        delete obj[num];
+                        createLetter();
+                        score++;
+                        scoreBox.innerText=score+'分';
+                        if(score%10==0){
+                            guanka++;
+                            guankaBox.innerText='第 '+guanka+' 关';
+                            millisec-=7;
+                            if(millisec<=5){
+                                millisec=5;
+                            }
+                        }
+                    } 
+                }
+            }else{ 
+                clearInterval(t); 
+                document.onkeydown=null;
+                btn.innerText="START"
+            }
+            flag=!flag;     
+            console.log(t);     
+        }
+
+        var time=setInterval(function(){
+            second++;
+            if(second>=60){
+                second=0;
+                minute++;
+                if(minute>=60){
+                    hour++;
+                }
+            }
+            secondBox.innerText=second;
+            minuteBox.innerText=minute;
+            hourBox.innerText=hour;
+        }, 1000)
+    	//Transition的做法
+        /* function move(){
+            for(var i in obj){
+                obj[i].ele.style.top=600+'px';            
+                    obj[i].ele.addEventListener('webkitTransitionEnd', function(){
+                            box.removeChild(this);
+                            delete obj[i];
+                            createLetter();                        
+                    })               
+            }
+        }
+        document.onkeydown=function(e){
+            for(var i in obj){ 
+            if(e.keyCode==i.charCodeAt(0)){
+                    box.removeChild(obj[i].ele);
+                    delete obj[i];
+                    createLetter();
+                }
+            }
+        }*/
+     </script>
+</html>
