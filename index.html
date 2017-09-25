@@ -1,7 +1,5 @@
 ﻿<!DOCTYPE html >
-<!--  # CODED by jurgelenas.lt -->
 <html>
-
 <head>
 	<title>PeachFolio - Portfolio Template</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -187,7 +185,7 @@
 		<div id="our-clients" class="clearfix">
 			<h1 class="title"> <span>我的follow</span></h1>
 			<a href="https://www.liaoxuefeng.com/" target="_blank">廖雪峰</a>
-			<a href="http://www.ruanyifeng.com/blog/" target="_blank">阮一峰<img src="img/client_2.png" alt="" /></a>
+			<a href="http://www.ruanyifeng.com/blog/" target="_blank">阮一峰</a>
 			<a href="http://www.zhangxinxu.com/"  target="_blank">张鑫旭</a>
 			<a href="http://www.cnblogs.com/rubylouvre"  target="_blank">司徒正美</a>
 			<a href="http://taobaofed.org/"  target="_blank">taobao FED</a>
@@ -221,3 +219,10 @@
 
 </body>
 </html>
+<script>
+	$('ul#services>li').mouseenter(function() {
+
+		var val = $(this).children('.come').html();
+		$('.content>.come').html(val);
+	});
+</script>

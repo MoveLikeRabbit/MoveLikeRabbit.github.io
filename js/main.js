@@ -4,22 +4,11 @@ $(document).ready(DocReady);
 function DocReady()
 {       
 	slider();
-
 	homeSlider();
-
 	portfolioItems();
 	topFooterSlider();
-
 	portfolioFilters();
-
-	
 }
-$(function () {
-	$('ul#services>li').mouseenter(function() {
-		var val = $(this).children('.come').html();
-		$('.content>.come').html(val);
-	});
-})
 function slider(){	
 	var ie7 = (document.all && !window.opera && window.XMLHttpRequest) ? true : false;
 
