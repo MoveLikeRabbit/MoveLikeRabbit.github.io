@@ -172,6 +172,13 @@ i { font-style:italic; }
   color:#ffffff;
   display:block;
 }
+#home-slider div{
+  background: #000;
+}
+#home-slider div>img{
+  width: 980px;
+  top:-80px;
+}
 #home-slider div h2:hover, #home-slider div h2 a:hover { text-decoration:none; }
 #home-slider div h3 {
   position:absolute;
