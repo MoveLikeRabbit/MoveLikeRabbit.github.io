@@ -225,6 +225,7 @@ a.bx-next:hover { background:url(img/slider_right_hover.png) no-repeat center ce
   font-size: 16px;
   font-weight: 600;
   cursor: default;
+  position: relative;
 }
 
 #services>li:hover{
@@ -240,12 +241,28 @@ a.bx-next:hover { background:url(img/slider_right_hover.png) no-repeat center ce
     margin: 0;
     position: absolute;
     box-shadow: 37px 115px 0 #f5f5f5, 37px -41px 0 #f5f5f5, -41px 37px 0 #f5f5f5, 115px 37px 0 #f5f5f5;
-    border-radius: 20%;
+    border-radius: 25%;
     -webkit-transform-origin: 50px 50px;
     transform-origin: 50px 50px;
     scope_ccw 10s linear infinite;
-    -webkit-animation: scope_ccw 10s linear infinite;
+    animation: scope_ccw 10s linear infinite;
 }
+#services>li::after {
+    content: '';
+    width: 26px;
+    height: 26px;
+    display: block;
+    margin: 0;
+    position: absolute;
+    top:0;
+    box-shadow: 37px 115px 0 #f5f5f5, 37px -41px 0 #f5f5f5, -41px 37px 0 #f5f5f5, 115px 37px 0 #f5f5f5;
+    border-radius: 25%;
+    -webkit-transform-origin: 50px 50px;
+    transform-origin: 50px 50px;
+    scope_ccw 10s linear infinite;
+    animation: scope_ccw 10s linear infinite 1.25s;
+}
+
 @keyframes scope_ccw{
   form{
     transform:rotate(0);
