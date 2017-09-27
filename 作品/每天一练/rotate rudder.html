@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>一个div做旋转船舵</title>
+</head>
+<body>
+	<div></div>
+</body>
+<style>
+	body{
+		background: skyblue;
+	}
+	div{
+
+		width: 200px;
+		height: 200px;
+		box-shadow: 0px 0px 0px 50px  black , 0px 0px 0px 100px  skyblue , 0px 0px 0px 150px  black;
+		margin: 200px auto;
+		position: relative;
+		border-radius: 50%;
+	}
+	div::before{
+		content: "";
+		display: block;
+		width: 50px;
+		height: 50px;
+		position: absolute;
+		border-radius: 10px;
+		box-shadow: 75px -195px 0 black,75px 345px 0 black,-195px 75px 0 black,345px 75px 0 black;
+		animation: rotate 10s linear infinite;
+		transform-origin: 100px 100px;
+	}
+	div::after{
+		content: "";
+		display: block;
+		width: 50px;
+		height: 50px;
+		left: 75px;
+		top: 75px;
+		position: absolute;
+		transform: rotate(45deg);
+		border-radius: 10px;
+		transform-origin: 25px 25px;
+		box-shadow: -270px 0px 0 black,270px 0px 0 black,0px -270px 0 black,0px 270px 0 black;
+		animation: rotate2 10s linear infinite;
+		
+	}
+	@keyframes rotate{
+		form{
+			transform: rotate(0);
+		}to{
+			transform: rotate(360deg);
+		}
+	}
+	@keyframes rotate2{
+		form{
+			transform: rotate(45deg);
+		}to{
+			transform: rotate(405deg);
+		}
+	}
+</style>
+</html>

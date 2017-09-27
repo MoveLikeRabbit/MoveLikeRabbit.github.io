@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <!-- <script src="JS/function.js"></script> -->
+    </head>
+    <style>
+        *{
+        	margin: 0;
+        	padding: 0;
+        }
+    	body,html{
+    		width: 100%;
+    		height: 100%;
+            overflow: hidden;
+    	}
+    	.lizi{
+          /*   width:4px;
+            height: 16px;
+            background: #fff; */
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: 14px;
+            color: #fff;
+            /* filter: blur(1px); */
+            /* border-radius: 100% 0 100% 0 / 100% 0 100% 0; */
+
+            /* transform: rotate(-30deg); */
+            transition: all 2s ease-in;
+            
+        }
+    </style>
+    <body>
+    	
+    </body>
+    <script>
+        document.bgColor='black';   
+        var cw=window.innerWidth;
+        var ch=window.innerHeight;
+        var ele=[]
+        for(let i=0;i<1000;i++){
+            var div=document.createElement('div');
+            div.className='lizi';
+            div.innerText="❄";
+            div.style.left=Math.random()*(cw-200)+'px';
+            var aa=div.style.left;
+            // console.log(parseInt(aa));
+            div.style.top=Math.random()*20+'px';
+            div.style.transitionDelay=Math.random()*3+'s';
+            document.body.appendChild(div);
+            ele.push(parseInt(aa))
+        }
+
+        var lizi=document.getElementsByClassName('lizi');
+        document.onclick=function () {
+            for(let j=0;j<lizi.length;j++){
+                lizi[j].style.top=(ch+10)+'px';
+                lizi[j].style.left=ele[j]+100+Math.random()*200+'px';
+                lizi[j].addEventListener('webkitTransitionEnd', function(){
+                    this.style.top=Math.random()*20+'px';
+                    this.style.left=ele[j]+'px';
+                    this.style.transition='none';
+                    setTimeout(function(){
+                        lizi[j].style.top=(ch+10)+'px';
+                        lizi[j].style.left=ele[j]+100+Math.random()*200+'px';
+                        lizi[j].style.transition='all 2s ease-in '+Math.random()*3+'s';
+                    }, 50)
+                })
+            }
+        }
+    </script>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <style>
+    	canvas{
+    		display: block;
+    		background: #000;
+    		margin: 0 auto;
+    	}
+    </style>
+    <body>
+    	<canvas width="500" height="500"></canvas>
+    </body>
+    <script>
+    	var canvas = document.querySelector('canvas');
+    	var cobj = canvas.getContext("2d");
+    	function circle() {
+    		// 定义例子的起始点和半径
+    		this.ox = 0;
+    		this.oy = 500;
+    		this.r = Math.floor(Math.random()*10)+5;
+    		this.color = `rgb(${Math.round(Math.random()*255)},${Math.round(Math.random()*255)},${Math.round(Math.random()*255)})`;;
+    		this.speedX = (Math.random())*5;
+    		this.speedY = Math.random()+1;
+    		this.i=-20;
+    		this.j = 0;
+    	}
+    	circle.prototype = {
+    		init:function () {
+    			this.draw();
+    			this.updata();
+    		},
+    		draw:function () {
+    			cobj.beginPath();
+    			cobj.fillStyle = this.color;
+    			cobj.arc(this.ox, this.oy, this.r, 0, Math.PI*2);
+    			cobj.fill();
+    			this.r-=0.08;
+    		},
+    		updata:function () {
+    			this.i+=0.35;
+    			this.j+=0.05;
+    			this.ox+=this.speedX+this.j;
+    			this.oy+=this.speedY+this.i;;
+    		}
+    	}
+    	var arr = [];	
+    	setInterval(function () {
+    		cobj.clearRect(0, 0, 500, 500);
+    		var spot = new circle();
+    		arr.push(spot);
+    		for (var i = 0; i < arr.length; i++) {
+    			arr[i].init();
+    			if(arr[i].r<=0){
+    				arr.splice(i,1);
+    				i--;
+    			}
+    		}
+    	},20)
+    	
+    	
+    </script>
+</html>
